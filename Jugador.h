@@ -6,6 +6,7 @@ using std::string;
     class Jugador{
         private:
             string nombre;
+            
             Civilizacion* civilizacion;
         public:
             Jugador();

@@ -15,7 +15,7 @@ using std::string;
             int tiempoentrenamineto;
             bool listo;
         public:
-            virtual void Ataque(Tropa&)=0;
+            virtual void Ataque(Tropa*)=0;
             Tropa(string,int,int,int,int,int,int,int,string);
             int getAtaque();
             int getVida();

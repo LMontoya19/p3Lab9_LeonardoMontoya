@@ -98,9 +98,8 @@ int main(){
                             bool desterrado =false;
                             bool cuartel=false;
                             bool castillo = false;
+                            int c=0;
                             while(opcion2=='s'){
-
-                                
                                 char opingresar = '9';
                                 cout<<endl;
                                 cout<<endl;
@@ -113,12 +112,13 @@ int main(){
                                 cout<<"7)Finalizar turno"<<endl;
                                 cout<<"8)Volver a menu principal"<<endl;
                                 cin>>opingresar;
+
                                 switch(opingresar){
                                     case '1':
+                                               { 
                                                 
-                                            
                                                 if(jugadores[jugadoractual]->getCivilizacion()->getAldeanos().size()+
-                                                jugadores[jugadoractual]->getCivilizacion()->getTropas().size()<
+                                                jugadores[jugadoractual]->getCivilizacion()->getTropas().size()+c<
                                                 jugadores[jugadoractual]->getCivilizacion()->getPoblacionactual()){
                                                     string sexo;
                                                     if(jugadores[jugadoractual]->getCivilizacion()->getAlimento()>=55){
@@ -127,12 +127,13 @@ int main(){
                                                         nuevosaldeanos.push_back(new Aldeano(sexo,55));
                                                         cout<<nuevosaldeanos.size()<<endl;
                                                         jugadores[jugadoractual]->getCivilizacion()->setAlimentos(-55);
+                                                        c++;
                                                     }else{
                                                         cout<<"No tiene suficientes alimentos para crear aldeano"<<endl;
                                                 }}else{
                                                     cout<<"No hay espacio para mas habitantes"<<endl;
                                                 }
-                                                break;
+                                                break;}
                                              //Fin case 1 nuevo aldeano
                                     case '2':{
                                                 for(int i = 0;i<jugadores[jugadoractual]->getCivilizacion()->getAldeanos().size();i++){
@@ -281,9 +282,9 @@ int main(){
                                                             cin>>tenemiga;
                                                         }
                                                         while(jugadores[batallar]->getCivilizacion()->getTropas()[tenemiga]->getVida()>0&&jugadores[jugadoractual]->getCivilizacion()->getTropas()[tamiga]->getVida()>0){
-                                                            jugadores[jugadoractual]->getCivilizacion()->getTropas()[tamiga]->Ataque(*jugadores[batallar]->getCivilizacion()->getTropas()[tenemiga]);
+                                                            jugadores[jugadoractual]->getCivilizacion()->getTropas()[tamiga]->Ataque(jugadores[batallar]->getCivilizacion()->getTropas()[tenemiga]);
                                                             if(jugadores[batallar]->getCivilizacion()->getTropas()[tenemiga]->getVida()>0){
-                                                                jugadores[batallar]->getCivilizacion()->getTropas()[tenemiga]->Ataque(*jugadores[jugadoractual]->getCivilizacion()->getTropas()[tamiga]);
+                                                                jugadores[batallar]->getCivilizacion()->getTropas()[tenemiga]->Ataque(jugadores[jugadoractual]->getCivilizacion()->getTropas()[tamiga]);
                                                             }else{
                                                                  //cout<<"Gano tropa de: "<<jugadores[jugadoractual]->getNombre()<<endl;
                                                                  //jugadores[batallar]->getCivilizacion()->getTropas().erase(jugadores[batallar]->getCivilizacion()->getTropas().begin()+tenemiga);
@@ -316,9 +317,7 @@ int main(){
                                                                 jugadores[jugadoractual]->getCivilizacion()->setAlimentos(100);*/
                                                         } 
                                                     }
-                                                    if(jugadores[batallar]->getCivilizacion()->getTropas()[tenemiga]->getVida()>0){
-                                                                jugadores[batallar]->getCivilizacion()->getTropas()[tenemiga]->Ataque(*jugadores[jugadoractual]->getCivilizacion()->getTropas()[tamiga]);
-                                                            }else{
+                                                    if(jugadores[batallar]->getCivilizacion()->getTropas()[tenemiga]->getVida()<0){
                                                                  cout<<"Gano tropa de: "<<jugadores[jugadoractual]->getNombre()<<endl;
                                                                  jugadores[batallar]->getCivilizacion()->getTropas().erase(jugadores[batallar]->getCivilizacion()->getTropas().begin()+tenemiga);
                                                                  jugadores[batallar]->getCivilizacion()->getTropas().shrink_to_fit();
@@ -380,6 +379,7 @@ int main(){
                                                 break;
                                              }//Fin case 6 Batalla
                                     case '7':{
+                                        c=0;
                                                 for(int i = 0;i<nuevosaldeanos.size();i++){
                                                     cout<<"*Aldeano Creado"<<endl;
                                                     jugadores[jugadoractual]->getCivilizacion()->getAldeanos().push_back(nuevosaldeanos[i]);
@@ -407,16 +407,17 @@ int main(){
                                                      recolectaPiedra=0;
                                                 }
                                                  for(int i = 0;i<nuevosedificios.size();i++){
-                                                    cout<<nuevosedificios[i]->toString()<<" creado"<<endl;
-                                                    if(nuevosedificios[i]->toString().compare("Cuartel")){
+                                                    cout<<nuevosedificios[i]->toString()<<"creado"<<endl;
+                                                    if(nuevosedificios[i]->toString().compare("Cuartel")==0){
                                                         jugadores[jugadoractual]->getCivilizacion()->setMadera(-120);
                                                         jugadores[jugadoractual]->getCivilizacion()->setPiedra(-80);
-                                                        castillo=true;
-                                                    }else if(nuevosedificios[i]->toString().compare("Castillo")){
+                                                        cuartel=true;
+                                                    }else if(nuevosedificios[i]->toString().compare("Castillo")==0){
                                                         jugadores[jugadoractual]->getCivilizacion()->setMadera(-275);
                                                         jugadores[jugadoractual]->getCivilizacion()->setOro(-200);
-                                                        cuartel=true;
+                                                        castillo=true;
                                                     }else{
+                                                        cout<<"Hola"<<endl;
                                                         jugadores[jugadoractual]->getCivilizacion()->setPoblacion(5);
                                                         jugadores[jugadoractual]->getCivilizacion()->setMadera(-50);
                                                     }
@@ -424,21 +425,9 @@ int main(){
                                                     delete nuevosedificios[i];
                                                 }
                                                 nuevosedificios.clear();
-                                                /*if(desterrado==true){
-                                                    for(int i = 0;i<jugadores[jugadoractual]->getCivilizacion()->getAldeanos().size();i++){
-                                                    if(jugadores[jugadoractual]->getCivilizacion()->getAldeanos()[i]!=NULL){
-                                                        cout<<"Entro"<<endl;
-                                                    delete jugadores[jugadoractual]->getCivilizacion()->getAldeanos()[i];
-                                                    }
-                                                }
-                                                for(int i = 0;i<jugadores[jugadoractual]->getCivilizacion()->getTropas().size();i++){
-                                                    if(jugadores[jugadoractual]->getCivilizacion()->getTropas()[i]!=NULL){
-                                                        cout<<"Entro 2"<<endl;
-                                                    delete jugadores[jugadoractual]->getCivilizacion()->getTropas()[i];
-                                                    jugadores[jugadoractual]->getCivilizacion()->getTropas().shrink_to_fit();
-                                                    }
-                                                }
-                                                
+                                                if(desterrado==true){
+                                                jugadores[jugadoractual]->getCivilizacion()->getAldeanos().clear();
+                                                jugadores[jugadoractual]->getCivilizacion()->getTropas().clear();
                                                 jugadores[jugadoractual]->getCivilizacion()->setMadera(-jugadores[jugadoractual]->getCivilizacion()->getMadera());
                                                 jugadores[jugadoractual]->getCivilizacion()->setOro(-jugadores[jugadoractual]->getCivilizacion()->getOro());
                                                 jugadores[jugadoractual]->getCivilizacion()->setPiedra(-jugadores[jugadoractual]->getCivilizacion()->getPiedra());
@@ -446,18 +435,18 @@ int main(){
                                                 jugadores[jugadoractual]->getCivilizacion()->setAlimentos(100);
                                                 cout<<"Se desterro el pueblo"<<endl;
                                                 desterrado=false;
-                                                }*/
+                                                }
                                                 
                                                 break;
                                             }//Fin Case 7 Finalizar Turno
                                     case '8':{
+                                        c=0;
                                             for(int i = 0;i<nuevosaldeanos.size();i++){
                                                     cout<<"*Aldeano Creado"<<endl;
                                                     jugadores[jugadoractual]->getCivilizacion()->getAldeanos().push_back(nuevosaldeanos[i]);
                                                 };
                                                 for(int i = 0;i<nuevosaldeanos.size();i++){
                                                     delete nuevosaldeanos[i];
-                                                    
                                                 };
                                                     nuevosaldeanos.clear();
                                                     
@@ -481,15 +470,16 @@ int main(){
                                                 }
                                                 for(int i = 0;i<nuevosedificios.size();i++){
                                                     cout<<nuevosedificios[i]->toString()<<" creado"<<endl;
-                                                    if(nuevosedificios[i]->toString().compare("Cuartel")){
+                                                    if(nuevosedificios[i]->toString().compare("Cuartel")==0){
                                                         jugadores[jugadoractual]->getCivilizacion()->setMadera(-120);
                                                         jugadores[jugadoractual]->getCivilizacion()->setPiedra(-80);
-                                                        castillo=true;
-                                                    }else if(nuevosedificios[i]->toString().compare("Castillo")){
+                                                        cuartel=true;
+                                                    }else if(nuevosedificios[i]->toString().compare("Castillo")==0){
                                                         jugadores[jugadoractual]->getCivilizacion()->setMadera(-275);
                                                         jugadores[jugadoractual]->getCivilizacion()->setOro(-200);
-                                                        cuartel=true;
+                                                        castillo=true;
                                                     }else{
+                                                        cout<<"hola"<<endl;
                                                         jugadores[jugadoractual]->getCivilizacion()->setPoblacion(5);
                                                         jugadores[jugadoractual]->getCivilizacion()->setMadera(-50);
                                                     }
@@ -497,26 +487,12 @@ int main(){
                                                     delete nuevosedificios[i];
                                                 }
                                                 nuevosedificios.clear();
-                                                /*if(desterrado==true){
-                                                    for(int i = 0;i<jugadores[jugadoractual]->getCivilizacion()->getAldeanos().size()-1;i++){
-                                                    if(jugadores[jugadoractual]->getCivilizacion()->getAldeanos()[i]!=NULL){
-                                                    delete jugadores[jugadoractual]->getCivilizacion()->getAldeanos()[i];
-                                                    }
-                                                }
+                                                if(desterrado==true){
                                                 jugadores[jugadoractual]->getCivilizacion()->getAldeanos().clear();
-                                                for(int i = 0;i<jugadores[jugadoractual]->getCivilizacion()->getTropas().size()-1;i++){
-                                                    if(jugadores[jugadoractual]->getCivilizacion()->getTropas()[i]!=NULL){
-                                                    delete jugadores[jugadoractual]->getCivilizacion()->getTropas()[i];}
-                                                }
                                                 jugadores[jugadoractual]->getCivilizacion()->getTropas().clear();
-                                                jugadores[jugadoractual]->getCivilizacion()->setMadera(-jugadores[jugadoractual]->getCivilizacion()->getMadera());
-                                                jugadores[jugadoractual]->getCivilizacion()->setOro(-jugadores[jugadoractual]->getCivilizacion()->getOro());
-                                                jugadores[jugadoractual]->getCivilizacion()->setPiedra(-jugadores[jugadoractual]->getCivilizacion()->getPiedra());
-                                                jugadores[jugadoractual]->getCivilizacion()->setAlimentos(-jugadores[jugadoractual]->getCivilizacion()->getAlimento());
-                                                jugadores[jugadoractual]->getCivilizacion()->setAlimentos(100);
                                                 cout<<"Se desterro el pueblo"<<endl;
                                                 desterrado=false;
-                                                }*/
+                                                }
                                                 
                                                        
                                             opcion2 = 'n';

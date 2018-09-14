@@ -5,7 +5,8 @@ Jugador::Jugador(){
 }
 Jugador::Jugador(string pnombre,Civilizacion* pcivil){
     nombre = pnombre;
-    civilizacion = pcivil;
+    civilizacion = new Civilizacion(pcivil->getOro(),pcivil->getMadera(),pcivil->getPiedra(),200,pcivil->getMaxpoblacion(),5,pcivil->getNombre());
+
 }
 
 void Jugador::setNombre(string pnombre){

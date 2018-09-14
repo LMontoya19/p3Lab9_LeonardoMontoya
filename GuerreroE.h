@@ -4,6 +4,6 @@
     class GuerreroE:public Tropa{
         public:
             GuerreroE(string);
-            virtual void Ataque(Tropa&);
+            virtual void Ataque(Tropa*);
     };
 #endif

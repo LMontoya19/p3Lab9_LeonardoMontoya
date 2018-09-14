@@ -6,6 +6,6 @@ using std::string;
     class Soldado:public Tropa{
         public:
             Soldado(string);
-            virtual void Ataque(Tropa&);
+            virtual void Ataque(Tropa*);
     };
 #endif
